@@ -18,43 +18,17 @@ public class StockBuySell {
             System.out.println("Max Profit : + " + getMaxProfit(prices));
         }
 
-        private static int getMaxProfit(int[] prices){
-            int buyDay = -1, sellDay = prices.length-1, i = prices.length-1;
-            while(i >= 0){
-                if(prices[i] > prices[sellDay] && i > buyDay){
-                    sellDay = i;
-                } else if ((buyDay == -1 || prices[i] < prices[buyDay]) && i < sellDay) {
-                    buyDay = i;
-                }
-                System.out.println("Buyday : " + buyDay + " : sellDay : " + sellDay);
-                i--;
+    public static int getMaxProfit(int[] prices) {
+
+        int maxProfit = 0, buyDay = prices[0];
+
+        for(int i : prices){
+            if(i - buyDay > maxProfit){
+                maxProfit = i - buyDay;
+            }else if(i < buyDay){
+                buyDay = i;
             }
-            System.out.println("Buyday : " + buyDay + " : sellDay : " + sellDay);
-            if(buyDay == -1 || buyDay == sellDay) return 0;
-            return prices[sellDay] - prices[buyDay];
         }
-
-        private static int getBuyDay(int[] prices){
-
-            int currMinPrice = prices[0], currBuyDay = 0;
-            for(int i = 0; i < prices.length; i++){
-                if(prices[i] < currMinPrice) {
-                    currMinPrice = prices[i];
-                    currBuyDay = i;
-                }
-            }
-            return currBuyDay;
-        }
-
-        private static int getSellDay(int[] prices, int buyDay){
-
-            int sellDay = buyDay, currMaxProfit = 0;
-            for(int i = buyDay + 1; i < prices.length; i++){
-                if((prices[i] - prices[buyDay]) > currMaxProfit){
-                    sellDay = i;
-                    currMaxProfit = prices[i] - prices[buyDay];
-                }
-            }
-            return sellDay;
-        }
+        return maxProfit;
+    }
 }
